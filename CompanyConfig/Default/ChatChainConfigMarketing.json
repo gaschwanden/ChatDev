@@ -1,0 +1,162 @@
+{
+    "chain": [
+      {
+        "phase": "DemandAnalysis",
+        "phaseType": "SimplePhase",
+        "max_turn_step": -1,
+        "need_reflect": "True"
+      },
+      {
+        "phase": "LanguageChoose",
+        "phaseType": "SimplePhase",
+        "max_turn_step": -1,
+        "need_reflect": "True"
+      },
+      {
+        "phase": "Research",
+        "phaseType": "SimplePhase",
+        "max_turn_step": 1,
+        "need_reflect": "False"
+      },
+      {
+        "phase": "ResearchCompleteAll",
+        "phaseType": "ComposedPhase",
+        "cycleNum": 10,
+        "Composition": [
+          {
+            "phase": "ResearchComplete",
+            "phaseType": "SimplePhase",
+            "max_turn_step": 1,
+            "need_reflect": "False"
+          }
+        ]
+      },
+      {
+        "phase": "ResearchReview",
+        "phaseType": "ComposedPhase",
+        "cycleNum": 3,
+        "Composition": [
+          {
+            "phase": "ResearchReviewComment",
+            "phaseType": "SimplePhase",
+            "max_turn_step": 1,
+            "need_reflect": "False"
+          },
+          {
+            "phase": "ResearchReviewModification",
+            "phaseType": "SimplePhase",
+            "max_turn_step": 1,
+            "need_reflect": "False"
+          }
+        ]
+      },
+      {
+        "phase": "GoalReview",
+        "phaseType": "ComposedPhase",
+        "cycleNum": 3,
+        "Composition": [
+          {
+            "phase": "GoalReviewComment",
+            "phaseType": "SimplePhase",
+            "max_turn_step": 1,
+            "need_reflect": "False"
+          },
+          {
+            "phase": "GoalReviewModification",
+            "phaseType": "SimplePhase",
+            "max_turn_step": 1,
+            "need_reflect": "False"
+          }
+        ]
+      },
+      {
+        "phase": "StrategyDevelopment",
+        "phaseType": "ComposedPhase",
+        "cycleNum": 3,
+        "Composition": [
+          {
+            "phase": "StrategyDevelopmentComment",
+            "phaseType": "SimplePhase",
+            "max_turn_step": 1,
+            "need_reflect": "False"
+          },
+          {
+            "phase": "StrategyDevelopmentModification",
+            "phaseType": "SimplePhase",
+            "max_turn_step": 1,
+            "need_reflect": "False"
+          }
+        ]
+      },
+
+      {
+        "phase": "ContentCreativeDevelopment",
+        "phaseType": "ComposedPhase",
+        "cycleNum": 3,
+        "Composition": [
+          {
+            "phase": "ContentCreativeDevelopmentComment",
+            "phaseType": "SimplePhase",
+            "max_turn_step": 1,
+            "need_reflect": "False"
+          },
+          {
+            "phase": "ContentCreativeDevelopmentModification",
+            "phaseType": "SimplePhase",
+            "max_turn_step": 1,
+            "need_reflect": "False"
+          }
+        ]
+      },
+      {
+        "phase": "BudgetDevelopment",
+        "phaseType": "ComposedPhase",
+        "cycleNum": 3,
+        "Composition": [
+          {
+            "phase": "BudgetComment",
+            "phaseType": "SimplePhase",
+            "max_turn_step": 1,
+            "need_reflect": "False"
+          },
+          {
+            "phase": "BudgetModification",
+            "phaseType": "SimplePhase",
+            "max_turn_step": 1,
+            "need_reflect": "False"
+          }
+        ]
+      },
+
+      {
+        "phase": "Documentation",
+        "phaseType": "SimplePhase",
+        "max_turn_step": 1,
+        "need_reflect": "True"
+      },
+      {
+        "phase": "Manual",
+        "phaseType": "SimplePhase",
+        "max_turn_step": 1,
+        "need_reflect": "False"
+      }
+    ],
+    "recruitments": [
+      "Chief Chief Marketing Officer (CMO)",
+      "Marketing Manager",
+      "Content Creator/Writer",
+      "Social Media Manager",
+      "SEO Specialist",
+      "Graphic Designer",
+      "Digital Marketing Specialist",
+      "Email Marketing Specialist",
+      "Product Marketing Manager",
+      "Market Research Analyst"
+    ],
+    "clear_structure": "True",
+    "brainstorming": "True",
+    "gui_design": "True",
+    "git_management": "False",
+    "self_improve": "False"
+  }
+  
