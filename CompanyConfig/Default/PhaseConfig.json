@@ -5,7 +5,7 @@
     "phase_prompt": [
       "ChatDev has made products in the following form before:",
       "Image: can present information in line chart, bar chart, flow chart, cloud chart, Gantt chart, etc.",
-      "Document: can present information via .docx files.",
+      "Document:  can present information via .docx files.",
       "PowerPoint: can present information via .pptx files.",
       "Excel: can present information via .xlsx files.",
       "PDF: can present information via .pdf files.",
