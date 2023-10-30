@@ -425,6 +425,36 @@ class CodeComplete(Phase):
         log_and_print_online("**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'],self.log_filepath)))
         return chat_env
 
+class ChallengesOpportunities(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
+                               "modality": chat_env.env_dict['modality'],
+                               "ideas": chat_env.env_dict['ideas'],
+                               "language": chat_env.env_dict['language'],
+                               "codes": chat_env.get_codes(),
+                               "unimplemented_file": ""})
+        unimplemented_file = ""
+        for filename in self.phase_env['pyfiles']:
+            code_content = open(os.path.join(chat_env.env_dict['directory'], filename)).read()
+            lines = [line.strip() for line in code_content.split("\n") if line.strip() == "pass"]
+            if len(lines) > 0 and self.phase_env['num_tried'][filename] < self.phase_env['max_num_implement']:
+                unimplemented_file = filename
+                break
+        self.phase_env['num_tried'][unimplemented_file] += 1
+        self.phase_env['unimplemented_file'] = unimplemented_file
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        chat_env.update_codes(self.seminar_conclusion)
+        if len(chat_env.codes.codebooks.keys()) == 0:
+            raise ValueError("No Valid Codes.")
+        chat_env.rewrite_codes()
+        log_and_print_online("**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'],self.log_filepath)))
+        return chat_env
+
+
 
 class CodeReviewComment(Phase):
     def __init__(self, **kwargs):
@@ -463,7 +493,185 @@ class CodeReviewModification(Phase):
             log_and_print_online("**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'],self.log_filepath)))
         self.phase_env['modification_conclusion'] = self.seminar_conclusion
         return chat_env
+    
+class AnalysisSalesProcess(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
+    def update_phase_env(self, chat_env):
+        self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
+                               "modality": chat_env.env_dict['modality'],
+                               "ideas": chat_env.env_dict['ideas'],
+                               "language": chat_env.env_dict['language'],
+                               "codes": chat_env.get_codes(),
+                               "comments": chat_env.env_dict['review_comments']})
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        if "```".lower() in self.seminar_conclusion.lower():
+            chat_env.update_codes(self.seminar_conclusion)
+            chat_env.rewrite_codes()
+            log_and_print_online("**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'],self.log_filepath)))
+        self.phase_env['modification_conclusion'] = self.seminar_conclusion
+        return chat_env
+
+class ChallengesOpportunities(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
+                               "modality": chat_env.env_dict['modality'],
+                               "ideas": chat_env.env_dict['ideas'],
+                               "language": chat_env.env_dict['language'],
+                               "codes": chat_env.get_codes(),
+                               "comments": chat_env.env_dict['review_comments']})
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        if "```".lower() in self.seminar_conclusion.lower():
+            chat_env.update_codes(self.seminar_conclusion)
+            chat_env.rewrite_codes()
+            log_and_print_online("**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'],self.log_filepath)))
+        self.phase_env['modification_conclusion'] = self.seminar_conclusion
+        return chat_env
+
+class AnalysisSalesProcess(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
+                               "modality": chat_env.env_dict['modality'],
+                               "ideas": chat_env.env_dict['ideas'],
+                               "language": chat_env.env_dict['language'],
+                               "codes": chat_env.get_codes(),
+                               "comments": chat_env.env_dict['review_comments']})
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        if "```".lower() in self.seminar_conclusion.lower():
+            chat_env.update_codes(self.seminar_conclusion)
+            chat_env.rewrite_codes()
+            log_and_print_online("**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'],self.log_filepath)))
+        self.phase_env['modification_conclusion'] = self.seminar_conclusion
+        return chat_env
+    
+class Implementation(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
+                               "modality": chat_env.env_dict['modality'],
+                               "ideas": chat_env.env_dict['ideas'],
+                               "language": chat_env.env_dict['language'],
+                               "codes": chat_env.get_codes(),
+                               "comments": chat_env.env_dict['review_comments']})
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        if "```".lower() in self.seminar_conclusion.lower():
+            chat_env.update_codes(self.seminar_conclusion)
+            chat_env.rewrite_codes()
+            log_and_print_online("**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'],self.log_filepath)))
+        self.phase_env['modification_conclusion'] = self.seminar_conclusion
+        return chat_env
+    
+class StrategyDevelopment(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
+                               "modality": chat_env.env_dict['modality'],
+                               "ideas": chat_env.env_dict['ideas'],
+                               "language": chat_env.env_dict['language'],
+                               "codes": chat_env.get_codes(),
+                               "comments": chat_env.env_dict['review_comments']})
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        if "```".lower() in self.seminar_conclusion.lower():
+            chat_env.update_codes(self.seminar_conclusion)
+            chat_env.rewrite_codes()
+            log_and_print_online("**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'],self.log_filepath)))
+        self.phase_env['modification_conclusion'] = self.seminar_conclusion
+        return chat_env
+    
+class LongTermOptimization(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
+                               "modality": chat_env.env_dict['modality'],
+                               "ideas": chat_env.env_dict['ideas'],
+                               "language": chat_env.env_dict['language'],
+                               "codes": chat_env.get_codes(),
+                               "comments": chat_env.env_dict['review_comments']})
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        if "```".lower() in self.seminar_conclusion.lower():
+            chat_env.update_codes(self.seminar_conclusion)
+            chat_env.rewrite_codes()
+            log_and_print_online("**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'],self.log_filepath)))
+        self.phase_env['modification_conclusion'] = self.seminar_conclusion
+        return chat_env
+    
+class MonitoringAdjustment(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
+                               "modality": chat_env.env_dict['modality'],
+                               "ideas": chat_env.env_dict['ideas'],
+                               "language": chat_env.env_dict['language'],
+                               "codes": chat_env.get_codes(),
+                               "comments": chat_env.env_dict['review_comments']})
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        if "```".lower() in self.seminar_conclusion.lower():
+            chat_env.update_codes(self.seminar_conclusion)
+            chat_env.rewrite_codes()
+            log_and_print_online("**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'],self.log_filepath)))
+        self.phase_env['modification_conclusion'] = self.seminar_conclusion
+        return chat_env
+
+class ReportingDocumentation(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
+                               "modality": chat_env.env_dict['modality'],
+                               "ideas": chat_env.env_dict['ideas'],
+                               "language": chat_env.env_dict['language'],
+                               "codes": chat_env.get_codes(),
+                               "comments": chat_env.env_dict['review_comments']})
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        if "```".lower() in self.seminar_conclusion.lower():
+            chat_env.update_codes(self.seminar_conclusion)
+            chat_env.rewrite_codes()
+            log_and_print_online("**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'],self.log_filepath)))
+        self.phase_env['modification_conclusion'] = self.seminar_conclusion
+        return chat_env
+class LongTermOptimization(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
+                               "modality": chat_env.env_dict['modality'],
+                               "ideas": chat_env.env_dict['ideas'],
+                               "language": chat_env.env_dict['language'],
+                               "codes": chat_env.get_codes(),
+                               "comments": chat_env.env_dict['review_comments']})
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        if "```".lower() in self.seminar_conclusion.lower():
+            chat_env.update_codes(self.seminar_conclusion)
+            chat_env.rewrite_codes()
+            log_and_print_online("**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'],self.log_filepath)))
+        self.phase_env['modification_conclusion'] = self.seminar_conclusion
+        return chat_env
 
 class CodeReviewHuman(Phase):
     def __init__(self, **kwargs):

@@ -13,80 +13,22 @@
       "need_reflect": "True"
     },
     {
-      "phase": "Coding",
+      "phase": "ChallengesOpportunities",
       "phaseType": "SimplePhase",
       "max_turn_step": 1,
       "need_reflect": "False"
     },
     {
-      "phase": "CodeCompleteAll",
-      "phaseType": "ComposedPhase",
-      "cycleNum": 10,
-      "Composition": [
-        {
-          "phase": "CodeComplete",
-          "phaseType": "SimplePhase",
-          "max_turn_step": 1,
-          "need_reflect": "False"
-        }
-      ]
-    },
-    {
-      "phase": "CodeReview",
-      "phaseType": "ComposedPhase",
-      "cycleNum": 3,
-      "Composition": [
-        {
-          "phase": "CodeReviewComment",
-          "phaseType": "SimplePhase",
-          "max_turn_step": 1,
-          "need_reflect": "False"
-        },
-        {
-          "phase": "CodeReviewModification",
-          "phaseType": "SimplePhase",
-          "max_turn_step": 1,
-          "need_reflect": "False"
-        }
-      ]
-    },
-    {
-      "phase": "HumanAgentInteraction",
-      "phaseType": "ComposedPhase",
-      "cycleNum": 5,
-      "Composition": [
-        {
-          "phase": "CodeReviewHuman",
-          "phaseType": "SimplePhase",
-          "max_turn_step": 1,
-          "need_reflect": "False"
-        }
-      ]
-    },
-    {
-      "phase": "Test",
-      "phaseType": "ComposedPhase",
-      "cycleNum": 3,
-      "Composition": [
-        {
-          "phase": "TestErrorSummary",
-          "phaseType": "SimplePhase",
-          "max_turn_step": 1,
-          "need_reflect": "False"
-        },
-        {
-          "phase": "TestModification",
-          "phaseType": "SimplePhase",
-          "max_turn_step": 1,
-          "need_reflect": "False"
-        }
-      ]
-    },
-    {
-      "phase": "EnvironmentDoc",
+      "phase": "AnalysisSalesProcess",
       "phaseType": "SimplePhase",
       "max_turn_step": 1,
-      "need_reflect": "True"
+      "need_reflect": "False"
+    },
+    {
+      "phase": "StrategyDevelopment",
+      "phaseType": "SimplePhase",
+      "max_turn_step": 1,
+      "need_reflect": "False"
     },
     {
       "phase": "Manual",
@@ -94,21 +36,22 @@
       "max_turn_step": 1,
       "need_reflect": "False"
     }
-  ],
-  "recruitments": [
-    "Chief Executive Officer",
-    "Counselor",
-    "Chief Human Resource Officer",
-    "Chief Product Officer",
-    "Chief Technology Officer",
-    "Programmer",
-    "Code Reviewer",
-    "Software Test Engineer",
-    "Chief Creative Officer"
-  ],
-  "clear_structure": "True",
-  "brainstorming": "False",
-  "gui_design": "True",
-  "git_management": "False",
-  "self_improve": "False"
+    ],
+    "recruitments": [
+        "Sales Manager",
+        "Product Development",
+        "Marketing",
+        "Customer Success",
+        "Technical Support",
+        "Pre-Sales",
+        "Legal and Compliance",
+        "Finance",
+        "Data Analytics",
+        "Human Resources"
+    ],
+    "clear_structure": "True",
+    "brainstorming": "False",
+    "gui_design": "True",
+    "git_management": "False",
+    "self_improve": "False"
 }
