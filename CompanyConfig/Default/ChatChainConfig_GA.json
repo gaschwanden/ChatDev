@@ -1,14 +1,43 @@
 {
   "chain": [
     {
-      "phase": "EngagementAnalysis",
+      "phase": "DemandAnalysis",
       "phaseType": "SimplePhase",
       "max_turn_step": -1,
+      "need_reflect": "True"
+    },
+    {
+      "phase": "LanguageChoose",
+      "phaseType": "SimplePhase",
+      "max_turn_step": -1,
+      "need_reflect": "True"
+    },
+    {
+      "phase": "ChallengesOpportunities",
+      "phaseType": "SimplePhase",
+      "max_turn_step": 1,
+      "need_reflect": "False"
+    },
+    {
+      "phase": "AnalysisSalesProcess",
+      "phaseType": "SimplePhase",
+      "max_turn_step": 1,
+      "need_reflect": "False"
+    },
+    {
+      "phase": "StrategyDevelopment",
+      "phaseType": "SimplePhase",
+      "max_turn_step": 1,
+      "need_reflect": "False"
+    },
+    {
+      "phase": "Manual",
+      "phaseType": "SimplePhase",
+      "max_turn_step": 1,
       "need_reflect": "False"
     }
-
-  ],
-  "recruitments": [
+    ],
+    "recruitments": [
         "Sales Manager",
         "Product Development",
         "Marketing",
@@ -31,16 +60,7 @@
         "Human Resources",
         "Data Analytics",
         "Finance",
-        "Legal",
-        "BeautyAdvisor",
-        "Customer360",
-        "ProductGenius",
-        "SuccessAgent",
-        "CommunityAgent",
-        "DealAgent",
-        "Coach",
-        "TrustAgent",
-        "JourneyArchitect"
+        "Legal"
 
     ],
     "clear_structure": "True",

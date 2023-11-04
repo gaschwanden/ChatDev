@@ -61,7 +61,7 @@ class Phase(ABC):
             with_task_specify=False,
             model_type=ModelType.GPT_3_5_TURBO,
             placeholders=None,
-            chat_turn_limit=10
+            chat_turn_limit=2
     ) -> str:
         """
 
@@ -213,6 +213,11 @@ class Phase(ABC):
             question = """Conclude the programming language being discussed for software development, in the format: "*" where '*' represents a programming language." """
         elif phase_name == "EnvironmentDoc":
             question = """According to the codes and file format listed above, write a requirements.txt file to specify the dependencies or packages required for the project to run properly." """
+        elif phase_name == "EngagementAnalysis":
+            question = """Reflect on the recent customer engagement, identifying strengths and areas for improvement." """
+        elif phase_name == "ActionItemIdentification":
+            question = """Identify specific action items to improve future engagements based on the analysis and limit them to the top 10 itmes." """
+
         else:
             raise ValueError(f"Reflection of phase {phase_name}: Not Assigned.")
 
@@ -306,6 +311,132 @@ class Phase(ABC):
         chat_env = self.update_chat_env(chat_env)
         return chat_env
 
+class Assignment(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        # Update the phase environment with details relevant to assignment of tasks.
+        # You may want to retrieve a list of agents and tasks from `chat_env`.
+        self.phase_env.update({
+            "agents": chat_env.env_dict.get('agents', []),
+            "tasks": chat_env.env_dict.get('tasks', [])
+        })
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        # This method would be responsible for assigning the tasks to the agents
+        # within the chat environment. The specifics would depend on your application's logic.
+
+        # Check if tasks and agents are available to assign
+        if not self.phase_env['tasks'] or not self.phase_env['agents']:
+            raise ValueError("Tasks or agents information is missing.")
+
+        # Proceed with assigning tasks to agents
+        for agent in self.phase_env['agents']:
+            # This is a simplified example of how you might assign tasks.
+            # The actual logic could be more complex, depending on your needs.
+            assigned_task = self.get_task_for_agent(agent)
+            chat_env.assign_task(agent, assigned_task)
+
+        # Assuming a method exists to log the assignments.
+        log_and_print_online("**[Task Assignments]**:\n\n {}".format(
+            self.generate_assignment_summary()))
+        
+        return chat_env
+
+    def get_task_for_agent(self, agent):
+        # This method would contain the logic to determine which task to assign to which agent.
+        # For now, we'll just return a placeholder task.
+        return "Complete customer follow-up"
+
+    def generate_assignment_summary(self):
+        # This would create a summary of the assignments that have been made.
+        # For now, it's just a placeholder text.
+        return "All agents have been assigned tasks."
+
+
+class PerformanceMetricsReview(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        # Here, you'd extract any relevant performance metrics from the chat environment
+        # that may need to be reviewed in this phase.
+        self.phase_env.update({
+            "performance_metrics": chat_env.env_dict.get('performance_metrics', []),
+            "improvements": chat_env.env_dict.get('implemented_improvements', [])
+        })
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        # In this method, performance metrics would be analyzed to assess the
+        # effectiveness of the improvements that have been implemented.
+        if not self.phase_env['performance_metrics']:
+            raise ValueError("No performance metrics available for review.")
+
+        # Assuming a method exists to analyze the performance metrics.
+        performance_analysis = self.analyze_performance(self.phase_env['performance_metrics'])
+
+        # Update the chat environment with the analysis results.
+        chat_env.update_performance_analysis(performance_analysis)
+
+        # Log and print the performance review summary.
+        log_and_print_online("**[Performance Metrics Review]**:\n\n {}".format(
+            self.generate_performance_review_summary(performance_analysis)))
+
+        return chat_env
+
+    def analyze_performance(self, performance_metrics):
+        # This method contains the logic for analyzing performance metrics.
+        # The specifics of this method would depend on what metrics are collected
+        # and how you determine effectiveness.
+        # This is a placeholder for illustrative purposes.
+        return {
+            "metric_summary": "Summary of key metrics.",
+            "improvement_outcomes": "Analysis of the outcomes related to the improvements."
+        }
+
+    def generate_performance_review_summary(self, performance_analysis):
+        # This function would create a summary of the performance review based on
+        # the analysis performed in the `analyze_performance` method.
+        return (
+            f"{performance_analysis['metric_summary']}\n"
+            f"Effectiveness of Improvements:\n"
+            f"{performance_analysis['improvement_outcomes']}"
+        )
+
+
+class CustomerFeedbackIntegration(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        # Extract feedback and improvements from the chat environment.
+        # These would be used to ensure alignment with customer expectations.
+        self.phase_env.update({
+            "customer_feedback": chat_env.env_dict.get('customer_feedback', []),
+            "planned_improvements": chat_env.env_dict.get('planned_improvements', [])
+        })
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        # This method integrates customer feedback with the planned improvements.
+        if not self.phase_env['customer_feedback']:
+            raise ValueError("No customer feedback available for integration.")
+
+        # Assuming a method exists to integrate feedback into planning.
+        chat_env.integrate_feedback(self.phase_env['customer_feedback'],
+                                    self.phase_env['planned_improvements'])
+
+        # Assuming there's a method to log and print the feedback integration process.
+        log_and_print_online("**[Customer Feedback Integration]**:\n\n {}".format(
+            self.generate_feedback_integration_summary()))
+
+        return chat_env
+
+    def generate_feedback_integration_summary(self):
+        # Summarize the process of integrating customer feedback.
+        # This would include details on how the feedback is affecting planning.
+        return "Customer feedback has been reviewed and integrated into the improvement plans."
+
 
 class DemandAnalysis(Phase):
     def __init__(self, **kwargs):
@@ -318,7 +449,58 @@ class DemandAnalysis(Phase):
         if len(self.seminar_conclusion) > 0:
             chat_env.env_dict['modality'] = self.seminar_conclusion.split("<INFO>")[-1].lower().replace(".", "").strip()
         return chat_env
+    
+class EngagementAnalysis(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
+    def update_phase_env(self, chat_env):
+        # For EngagementAnalysis, the details to be included in phase_env would be specific to customer engagement.
+        # There might not be a GUI component here, as it seems to focus on analysis of interactions rather than software design.
+        self.phase_env.update({
+            "strengths": chat_env.env_dict.get('strengths', ''),
+            "improvements": chat_env.env_dict.get('improvements', '')
+        })
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        # This method would implement any changes to the chat environment based on the results of the engagement analysis.
+        # Assuming the ChatEnv class has methods to handle the updating process based on the provided configuration.
+        chat_env.update_engagement_analysis(self.phase_env)  # This is hypothetical and depends on your ChatEnv class definition.
+        # Log the updated environment for debugging or record-keeping purposes.
+        log_and_print_online("**[Engagement Feedback]**:\n\n {}".format(self._generate_feedback_summary(chat_env)))
+        return chat_env
+
+    def _generate_feedback_summary(self, chat_env):
+        # Generate a summary of the engagement feedback, based on the chat environment.
+        # This might involve formatting the strengths and areas for improvement identified during the phase.
+        strengths = chat_env.env_dict.get('strengths', 'No strengths recorded.')
+        improvements = chat_env.env_dict.get('improvements', 'No improvements recorded.')
+        return f"Strengths identified:\n{strengths}\n\nAreas for improvement:\n{improvements}"
+
+    
+class ActionItemIdentification(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        pass
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        if len(self.seminar_conclusion) > 0:
+            chat_env.env_dict['modality'] = self.seminar_conclusion.split("<INFO>")[-1].lower().replace(".", "").strip()
+        return chat_env
+
+class EngagementAnalysis(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        pass
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        if len(self.seminar_conclusion) > 0:
+            chat_env.env_dict['modality'] = self.seminar_conclusion.split("<INFO>")[-1].lower().replace(".", "").strip()
+        return chat_env
 
 class LanguageChoose(Phase):
     def __init__(self, **kwargs):
@@ -454,6 +636,39 @@ class ChallengesOpportunities(Phase):
         log_and_print_online("**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'],self.log_filepath)))
         return chat_env
 
+class ImprovementPlanning(Phase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def update_phase_env(self, chat_env):
+        # In this method, you would update the phase environment with any
+        # information relevant to the improvement planning. If `chat_env` contains
+        # specific improvements to implement, they would be extracted here.
+        self.phase_env.update({
+            "improvements": chat_env.env_dict.get('identified_improvements', [])
+        })
+
+    def update_chat_env(self, chat_env) -> ChatEnv:
+        # Here, the chat environment would be updated to reflect the plan for
+        # implementing the identified improvements.
+        # You might define a method to create an action plan based on the improvements.
+        if not self.phase_env['improvements']:
+            raise ValueError("No identified improvements to plan for.")
+
+        # Let's assume there's a method to plan improvements in your environment.
+        for improvement in self.phase_env['improvements']:
+            chat_env.plan_improvement(improvement)
+
+        # Assuming a method to log the planning details.
+        log_and_print_online("**[Improvement Planning]**:\n\n {}".format(
+            self.generate_planning_summary()))
+
+        return chat_env
+
+    def generate_planning_summary(self):
+        # Create a summary of the improvement plan that's been constructed.
+        # This would likely be a more complex function in a real scenario.
+        return "Improvement implementation plans have been created for all identified areas."
 
 
 class CodeReviewComment(Phase):
