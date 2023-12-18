@@ -1,0 +1,51 @@
+{
+  "chain": [
+    {
+      "phase": "EngagementAnalysis",
+      "phaseType": "SimplePhase",
+      "max_turn_step": -1,
+      "need_reflect": "True"
+    }
+
+  ],
+  "recruitments": [
+        "Sales Manager",
+        "Product Development",
+        "Marketing",
+        "Customer Success",
+        "Technical Support",
+        "Pre-Sales",
+        "Legal and Compliance",
+        "Finance",
+        "Data Analytics",
+        "Human Resources",
+        "Chief Creative Officer",
+        "Software Test Engineer",
+        "Code Reviewer",
+        "Programmer",
+        "Chief Human Resource Officer",
+        "Chief Technology Officer",
+        "Counselor",
+        "Chief Product Officer",
+        "Chief Executive Officer",
+        "Human Resources",
+        "Data Analytics",
+        "Finance",
+        "Legal",
+        "BeautyAdvisor",
+        "Customer360",
+        "ProductGenius",
+        "SuccessAgent",
+        "CommunityAgent",
+        "DealAgent",
+        "Coach",
+        "TrustAgent",
+        "JourneyArchitect"
+
+    ],
+    "clear_structure": "True",
+    "brainstorming": "False",
+    "gui_design": "True",
+    "git_management": "False",
+    "self_improve": "False"
+}

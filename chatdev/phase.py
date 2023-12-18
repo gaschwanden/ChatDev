@@ -33,6 +33,8 @@ class Phase(ABC):
         self.assistant_role_name = assistant_role_name
         self.user_role_name = user_role_name
         self.phase_prompt = phase_prompt
+        self.strengths = None
+        self.improvements = None
         self.phase_env = dict()
         self.phase_name = phase_name
         self.assistant_role_prompt = role_prompts[assistant_role_name]
@@ -452,12 +454,13 @@ class DemandAnalysis(Phase):
     
 class EngagementAnalysis(Phase):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        super().__init__(**kwargs) 
 
     def update_phase_env(self, chat_env):
         # For EngagementAnalysis, the details to be included in phase_env would be specific to customer engagement.
         # There might not be a GUI component here, as it seems to focus on analysis of interactions rather than software design.
         self.phase_env.update({
+            "task": chat_env.env_dict['task_prompt'],
             "strengths": chat_env.env_dict.get('strengths', ''),
             "improvements": chat_env.env_dict.get('improvements', '')
         })
@@ -483,11 +486,18 @@ class ActionItemIdentification(Phase):
         super().__init__(**kwargs)
 
     def update_phase_env(self, chat_env):
-        pass
+        # For EngagementAnalysis, the details to be included in phase_env would be specific to customer engagement.
+        # There might not be a GUI component here, as it seems to focus on analysis of interactions rather than software design.
+        self.phase_env.update({
+            "task": chat_env.env_dict['task_prompt'],
+            "strengths": chat_env.env_dict.get('strengths', ''),
+            "improvements": chat_env.env_dict.get('improvements', '')
+        })
 
     def update_chat_env(self, chat_env) -> ChatEnv:
-        if len(self.seminar_conclusion) > 0:
-            chat_env.env_dict['modality'] = self.seminar_conclusion.split("<INFO>")[-1].lower().replace(".", "").strip()
+        chat_env.update_engagement_analysis(self.phase_env)  # This is hypothetical and depends on your ChatEnv class definition.
+        # Log the updated environment for debugging or record-keeping purposes.
+        log_and_print_online("**[Engagement Feedback]**:\n\n {}".format(self._generate_feedback_summary(chat_env)))
         return chat_env
 
 class EngagementAnalysis(Phase):

@@ -1,0 +1,44 @@
+{
+    "EngagementAnalysis": {
+        "assistant_role_name": "Coach",
+        "user_role_name": "BeautyAdvisor",
+        "phase_prompt": [
+            "Reflect on the recent customer engagement, identifying strengths and areas for improvement."
+        ]
+    },
+    "ActionItemIdentification": {
+        "assistant_role_name": "BeautyAdvisor",
+        "user_role_name": "ProductGenius",
+        "phase_prompt": [
+            "Identify specific action items to improve future engagements based on the analysis."
+        ]
+    },
+    "Assignment": {
+        "assistant_role_name": "BeautyAdvisor",
+        "user_role_name": "Coach",
+        "phase_prompt": [
+            "Assign action items to specific agents for implementation."
+        ]
+    },
+    "ImprovementPlanning": {
+        "assistant_role_name": "ProductGenius",
+        "user_role_name": "BeautyAdvisor",
+        "phase_prompt": [
+            "Plan for the implementation of identified improvements."
+        ]
+    },
+    "CustomerFeedbackIntegration": {
+        "assistant_role_name": "CommunityAgent",
+        "user_role_name": "SuccessAgent",
+        "phase_prompt": [
+            "Integrate customer feedback to ensure the identified improvements align with customer expectations."
+        ]
+    },
+    "PerformanceMetricsReview": {
+        "assistant_role_name": "JourneyArchitect",
+        "user_role_name": "BeautyAdvisor",
+        "phase_prompt": [
+            "Review performance metrics to measure the effectiveness of implemented improvements."
+        ]
+    }
+}
